@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD IMAGENES</title>
+    <style>
+        body{
+            padding: 15px;
+            text-align: center;
+        }
+        .barra{
+            padding: 5px 5px;
+            display: flex;;
+            background-color: cadetblue;
+            justify-content: space-around;
+            border-radius: 10px;
+        }
+        .barra h1{
+            color: white;
+            display: inline-block;
+        }
+
+        .cont-img{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+        .cont-img img{
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="barra">
+        <a href="{% url 'home' %}"> <h1> Inicio </h1></a>
+        <a href="{% url 'gallery' %}"> <h1> Galeria </h1></a>
+        <a href="{% url 'upload' %}"> <h1> Subir </h1></a>
+    </nav>
+    <div class="contenido">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+</html>

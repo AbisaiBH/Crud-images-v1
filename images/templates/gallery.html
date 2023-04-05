@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h1> Galeria de imagenes </h1>
+    <div class="cont-img">
+        {% for imagen in img %}
+            <form action="{% url 'gallery_delete' imagen.id %}" method="POST">
+                <img src="{{imagen.img.url}}" alt="">
+                {% csrf_token %}
+                <button> Eliminar </button>
+            </form>
+        {% endfor %}
+    </div>
+{% endblock %}
