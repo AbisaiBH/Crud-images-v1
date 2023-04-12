@@ -26,6 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home , name='home'),
     path('upload/', views.upload, name='upload'),
+    path('signup/', views.signup, name='signup'),
+    path('signin/', views.signin, name='signin'),
+    path('signout/', views.signout, name='signout'),
     path('gallery/', views.gallery , name='gallery'),
     path('gallery/<int:img_id>/delete/', views.gallery_delete , name='gallery_delete'),
 ]

@@ -32,14 +32,39 @@
             height: auto;
             object-fit: cover;
         }
+        .box{
+            height: 40px;
+            align-items: center;
+            background-color: blue;
+            border-radius: 8px;
+            margin-left: 70%;
+            width: 350px;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 5px;
+        }
+        .box h3{
+            text-decoration: none;
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <div class="box">
+        {% if user.is_authenticated %}
+        <a href="{% url 'signout'%}"> <h3> Cerrar sesión </h3> </a>
+        {% else %}
+        <a href="{% url 'signup'%}"> <h3> Registrarse </h3> </a>
+        <a href="{% url 'signin'%}"> <h3> Iniciar sesión </h3> </a>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
     <nav class="barra">
         <a href="{% url 'home' %}"> <h1> Inicio </h1></a>
         <a href="{% url 'gallery' %}"> <h1> Galeria </h1></a>
         <a href="{% url 'upload' %}"> <h1> Subir </h1></a>
     </nav>
+    {% endif %}
     <div class="contenido">
         {% block content %}
 
