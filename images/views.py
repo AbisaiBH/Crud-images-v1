@@ -14,11 +14,12 @@ def home(request):
 
 def upload(request):
     if request.method == 'POST':
-        form = ImagenForm(request.POST, request.FILES)
-        if form.is_valid():
-            obj = form.save()
-            compress(obj)
-            return redirect('upload')
+        title = request.POST.get('title')
+        img = request.FILES.getlist('img')
+        for image in img:
+            imagen = Imagen.objects.create(title = title, img = image)
+            compress(imagen)
+        return redirect('upload')      
     else:
         form = ImagenForm()
     return render(request, 'upload.html', {'form': form})

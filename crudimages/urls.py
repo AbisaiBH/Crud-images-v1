@@ -25,7 +25,7 @@ from images import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home , name='home'),
-    path('upload/', views.upload , name='upload'),
+    path('upload/', views.upload, name='upload'),
     path('gallery/', views.gallery , name='gallery'),
     path('gallery/<int:img_id>/delete/', views.gallery_delete , name='gallery_delete'),
 ]
