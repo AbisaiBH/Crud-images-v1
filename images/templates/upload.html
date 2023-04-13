@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+    {% if opt == 0 %}
+    <h1> Elige la opción del archivo a subir </h1>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" name="opcion" value='1'> Imagen </button>
+        <button type="submit" name="opcion" value='2'> Documento </button>
+    </form>
+    
+    {% elif opt == 1%}
     {{mensaje}}
     <h1> Sube tus imagenes </h1>
         <form method="POST" enctype="multipart/form-data">
@@ -9,4 +17,15 @@
             {{form.as_p}}
             <button type="submit"> Enviar </button>
         </form>
+
+
+    {% elif opt == 2%}
+    {{mensaje}}
+        <h1> Sube tus documentos </h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit"> Enviar </button>
+            </form>
+    {% endif %}
 {% endblock %}

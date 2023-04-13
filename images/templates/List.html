@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h1> Lista de documentos </h1>
+    <div class="cont-doc">
+        <ol>
+        {% for document in doc %}
+            <form action="{% url 'list_delete' document.id %}" method="POST">
+                <li>
+                    <h3>{{document.title}} - {{document.doc.name|slice:'5:'}}</h3>
+                    {% csrf_token %}
+                    <button> Eliminar </button>
+                </li>
+            </form>
+        {% endfor %}
+        </ol>
+    </div>
+{% endblock %}

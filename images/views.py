@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from django.conf import settings
 from .models import Imagen
-from .forms import ImagenForm
+from .forms import ImagenForm, DocumentForm
 
 from PIL import Image
 import os
@@ -66,22 +66,43 @@ def signout(request):
 
 @login_required
 def upload(request):
+    opt = 0
     if request.method == 'POST':
+        var = request.POST.get('opcion')
+        if var == '1':
+            opt = 1
+            form = ImagenForm()
+            return render(request, 'upload.html', {'form': form, 'opt': opt})
+        elif var == '2':
+            opt = 2
+            form = DocumentForm()
+            return render(request, 'upload.html', {'form': form, 'opt': opt})
         title = request.POST.get('title')
         img = request.FILES.getlist('img')
+        doc = request.FILES.getlist('doc')
         usg = request.user
-        for image in img:
-            imagen = Imagen.objects.create(title = title, img = image, user = usg)
-            compress(imagen)
-        return redirect('upload')      
+        if len(img) == 0:
+            for doces in doc:
+                documt = Imagen.objects.create(title = title, doc = doces, user = usg)
+                return redirect('list')
+        if len(doc) == 0:
+            for image in img:
+                imagen = Imagen.objects.create(title = title, img = image, user = usg)
+                compress(imagen)
+                return redirect('gallery')      
     else:
         form = ImagenForm()
-    return render(request, 'upload.html', {'form': form})
+    return render(request, 'upload.html', {'form': form, 'opt': opt})
 
 @login_required
 def gallery(request):
-    img = Imagen.objects.filter(user = request.user)
+    img = Imagen.objects.filter(user = request.user, doc = "")
     return render(request, 'gallery.html', {'img': img})
+
+@login_required
+def list(request):
+    doc = Imagen.objects.filter(user = request.user, img = "")
+    return render(request, 'list.html', {'doc': doc})
 
 @login_required
 def gallery_delete(request, img_id):
@@ -90,6 +111,13 @@ def gallery_delete(request, img_id):
         os.remove(imag.img.path)
         imag.delete()
         return redirect('gallery')
+@login_required
+def list_delete(request, doc_id):
+    docs = get_object_or_404(Imagen, pk=doc_id)
+    if request.method == 'POST':
+        os.remove(docs.doc.path)
+        docs.delete()
+        return redirect('list')
 
 def compress(obj):
     originimg = Imagen.objects.get(id=obj.id)
@@ -102,6 +130,6 @@ def compress(obj):
     
     with open(ruta_comprimido, 'rb') as f:
         originimg.img.save(f"{originimg.title.split('.')[0]}.webp", f, save=True)
-        
+
     os.remove(ruta_org)
     os.remove(ruta_comprimido)

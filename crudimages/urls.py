@@ -31,6 +31,8 @@ urlpatterns = [
     path('signout/', views.signout, name='signout'),
     path('gallery/', views.gallery , name='gallery'),
     path('gallery/<int:img_id>/delete/', views.gallery_delete , name='gallery_delete'),
+    path('list/', views.list, name="list"),
+    path('list/<int:doc_id>/delete/', views.list_delete , name='list_delete'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
